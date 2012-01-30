@@ -1,0 +1,21 @@
+{
+	"name": "djeo-demos",
+	"author": "Vladimir Elistratov",
+	"description": "Demos for the djeo library",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vvoovv/djeo-demos"
+	},
+	"bugs": "https://github.com/vvoovv/djeo-demos/issues",
+	"dependencies": {
+		"djeo": "0.1.0",
+		"djeo-colorbrewer": "0.1.0",
+		"djeo-jenks": "0.1.0",
+		"djeo-gmaps": "0.1.0",
+		"djeo-ge": "0.1.0",
+		"djeo-ymaps": "0.1.0"
+	},
+	"keywords": ["djeo", "geo"],
+	"homepage": "http://djeo.org",
+	"icon": "http://djeo.github.com/djeo25.png"
+}
