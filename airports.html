@@ -3,10 +3,10 @@
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <link rel="stylesheet" href="../dijit/themes/claro/claro.css"/>
-<link rel="stylesheet" href="../dojox/grid/resources/Grid.css"/>
-<link rel="stylesheet" href="../dojox/grid/resources/claroGrid.css"/>
 
 <style>
+@import "../dgrid/css/skins/claro.css";
+
 html, body, #container{
 	width: 100%;
 	height: 100%;
@@ -14,17 +14,25 @@ html, body, #container{
 	padding: 0;
 	margin: 0;
 }
+
+#grid {
+	height: 100%;
+}
+#grid .column-id {
+	width: 12%;
+}
+#grid .column-name {
+	width: 45%;
+}
+#grid .column-state {
+	width: 13%;
+}
 </style>
 
 <script>
 	dojoConfig = {
 		isDebug: true,
 		async: true,
-		paths: {
-			djeo: "../djeo",
-			demos: "../djeo-demos",
-			jenks: "../djeo-jenks"
-		},
 		djeoEngine: "djeo",
 		geKey: "ABQIAAAA-DMAtggvLwlIYlUJiASaAxQY-Fz4NzEHZIQrBIZBoOQoqd-uzBRkVt7VEildDaCi2BXe96yx38L65A",
 		ymapsKey: "ANMiq04BAAAA1kB9MQMA7tdsXyQEqy76s-aTjUTaH5v_vPgAAAAAAAAAAAC4kPhFQz2sCMbzqMCJi01lKdvgGA=="
@@ -42,13 +50,12 @@ var requireModules = [
 	"dijit/registry", // byId
 	"dijit/layout/BorderContainer",
 	"dijit/layout/ContentPane",
-	"dojo/data/ItemFileReadStore",
-	"dojox/grid/DataGrid",
+	"dgrid/Grid",
 	
-	"demos/data/airports",
+	"djeo-demos/data/airports",
 	
 	"djeo/util/numeric",
-	"jenks/main",
+	"djeo-jenks/main",
 	"djeo/widget/Legend",
 	
 	"djeo/Map",
@@ -57,6 +64,7 @@ var requireModules = [
 	"djeo/control/Tooltip",
 	"djeo/widget/Legend",
 	
+	"dojo/query", // needed for grid.on(".dgrid-row:...", callback)
 	"dojo/domReady!"
 ];
 
@@ -66,14 +74,13 @@ if (dojoConfig.djeoEngine=="djeo") {
 
 var ready = function(
 	parser, aspect, dijitRegistry,
-	BorderContainer, ContentPane, ItemFileReadStore, DataGrid,
+	BorderContainer, ContentPane, Grid,
 	airports, numeric, jenks, Legend
 	) {
 	DebugUtil.timer.end("loading");
 
 	parser.parse();
 
-	var map, legend, grid, store;
 	var normalStyle = {
 		styleClass: "iconSizeByValue",
 		img: {src: "icons/plane_red.png", size: [50, 50]},
@@ -113,7 +120,7 @@ var ready = function(
 	}
 	
 	DebugUtil.timer.start("render");
-    map = new djeo.Map("map", {
+    var map = new djeo.Map("map", {
 		features: features,
 		geometries: geometries,
 		style: [normalStyle, higlightStyle],
@@ -124,7 +131,7 @@ var ready = function(
 		DebugUtil.timer.end("render");
 
 		aspect.after(dijitRegistry.byId("gridContainer"), "resize", function() {
-			map.resize()
+			map.resize();
 		});
 
 		new djeo.control.Navigation(map);
@@ -140,44 +147,29 @@ var ready = function(
 		
 		new Legend({map: map}, "mapLegend");
 		
-		// setup the store and the grid
-		store = new ItemFileReadStore({
-			data: {
-				identifier: "id",
-				items: airports
-			}
-		});
-		grid = new DataGrid({
-			store: store,
-			query: { id: "*" },
-			sortInfo: -4,
-			structure: [
-				{ name: "Code", field: "id", width: "12%" },
-				{ name: "Name", field: "name", width: "45%" },
-				{ name: "State", field: "state", width: "13%" },
-				{ name: "Enplanements", field: "enplanements", width: "30%" }
-			]
+		// setup the grid
+		var columns = {
+			id: {label: "Code"},
+			name: {label: "Name", sortable: false},
+			state: {label: "State"},
+			enplanements: {label: "Enplanements"}
+		};
+		var grid = new Grid({
+			columns: columns
 		}, "grid");
-		grid.startup();
-
-		// connect grid.onRowDblClick to the event handler
-		aspect.after(grid, "onRowDblClick", function(evt) {
-			var storeItem = grid.getItem(evt.rowIndex),
-				featureId = store.getIdentity(storeItem);
-			map.zoomTo(featureId);
-		}, true);
-		// connect grid.onRowMouseOver
-		aspect.after(grid, "onRowMouseOver", function(evt) {
-			var storeItem = grid.getItem(evt.rowIndex),
-				feature = map.getFeatureById(store.getIdentity(storeItem));
+		grid.on(".dgrid-row:mouseover", function(evt){
+			var feature = map.getFeatureById(grid.row(evt).data.id);
 			feature.render(true, "highlight");
-		}, true);
-		// connect grid.onRowMouseOut
-		aspect.after(grid, "onRowMouseOut", function(evt) {
-			var storeItem = grid.getItem(evt.rowIndex),
-				feature = map.getFeatureById(store.getIdentity(storeItem));
+		});
+		grid.on(".dgrid-row:mouseout", function(evt){
+			var feature = map.getFeatureById(grid.row(evt).data.id);
 			feature.render(true);
-		}, true);
+		});
+		grid.on(".dgrid-row:dblclick", function(evt){
+			map.zoomTo(grid.row(evt).data.id);
+		});
+		grid.renderArray(airports);
+		grid.sort("enplanements", true);
 	});
 }
 
@@ -189,14 +181,18 @@ require(requireModules, ready);
 <body class="claro">
 
 <div id="container" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'sidebar'">
-	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="id:'gridContainer', region:'leading', splitter:true, style:'width:500px; padding:0; overflow: hidden;'">
-		<h3>Number of enplanements in the largest US airports</h3>
-		<ul>
-			<li>Move the cursor over the grid to highlight the respective airport on the map</li>
-			<li>A feature on the map is highlighted too if you point mouse on it</li>
-			<li>Double click on a grid row to zoom the map to the related airport</li>
-		</ul>
-		<div id="grid"></div>
+	<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="id:'gridContainer', design:'headline', region:'leading', splitter:true, gutters: false, style:'width:500px; padding:0;'">
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top', splitter:false, style:'padding:0'">
+			<h3>Number of enplanements in the largest US airports</h3>
+			<ul>
+				<li>Move the cursor over the grid to highlight the respective airport on the map</li>
+				<li>A feature on the map is highlighted too if you point mouse on it</li>
+				<li>Double click on a grid row to zoom the map to the related airport</li>
+			</ul>
+		</div>
+		<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center', style:'padding:0; overflow:hidden;'">
+			<div id="grid"></div>
+		</div>
 	</div>
 	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center', style:'padding:0'">
 		<div id="map" style="width:100%;height:500px;"></div>

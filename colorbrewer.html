@@ -8,12 +8,6 @@
 	dojoConfig = {
 		isDebug: true,
 		async: true,
-		paths: {
-			djeo: "../djeo",
-			demos: "../djeo-demos",
-			colorbrewer: "../djeo-colorbrewer",
-			jenks: "../djeo-jenks"
-		},
 		djeoEngine: "djeo",
 		geKey: "ABQIAAAA-DMAtggvLwlIYlUJiASaAxQY-Fz4NzEHZIQrBIZBoOQoqd-uzBRkVt7VEildDaCi2BXe96yx38L65A",
 		ymapsKey: "ANMiq04BAAAA1kB9MQMA7tdsXyQEqy76s-aTjUTaH5v_vPgAAAAAAAAAAAC4kPhFQz2sCMbzqMCJi01lKdvgGA=="
@@ -150,13 +144,13 @@ require([
 	"dijit/form/RadioButton",
 	"dijit/form/Select",
 	
-	"demos/data/russia_features",
-	"demos/data/russia_geometries" + (dojoConfig.djeoEngine!="djeo" ? "Epsg4326" : ""),
+	"djeo-demos/data/russia_features",
+	"djeo-demos/data/russia_geometries" + (dojoConfig.djeoEngine!="djeo" ? "Epsg4326" : ""),
 	
 	"djeo/util/numeric",
-	"colorbrewer/main",
-	"colorbrewer/data",
-	"jenks/main",
+	"djeo-colorbrewer/main",
+	"djeo-colorbrewer/data",
+	"djeo-jenks/main",
 	"djeo/widget/Legend",
 	
 	"djeo/Map",
