@@ -9,6 +9,7 @@ var dojoConfig = {
 		{name: "djeo-ymaps", location: "../djeo-ymaps"},
 		{name: "djeo-demos", location: "../djeo-demos"},
 		{name: "djeo-jenks", location: "../djeo-jenks"},
+		{name: "djeo-colorbrewer", location: "../djeo-colorbrewer"},
 		{name: "dgrid", location: "../dgrid"},
 		{name: "xstyle", location: "../xstyle"},
 		{name: "put-selector", location: "../put-selector" }

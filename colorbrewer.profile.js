@@ -22,18 +22,15 @@ var profile = {
 			include: [
 				"dojo/dojo",
 				"dojo/domReady",
-				"dojo/parser",
-				"dojo/aspect", // after
-				"dijit/registry", // byId
-				"dijit/layout/BorderContainer",
-				"dijit/layout/ContentPane",
-				"dgrid/Grid",
+
+				"dojo/_base/array",
+				"dojo/dom",
+				"dojo/dom-attr",
+				"dojo/dom-construct",
 				
-				"djeo-demos/data/airports",
-				
-				"djeo/util/numeric",
-				"djeo-jenks/main",
-				"djeo/widget/Legend",
+				"dijit/registry",
+				"dijit/form/RadioButton",
+				"dijit/form/Select",
 				
 				"djeo/Map",
 				// djeo/Engine is used by all engines
@@ -42,13 +39,14 @@ var profile = {
 				"djeo/control/Highlight",
 				"djeo/control/Tooltip",
 				"djeo/widget/Legend",
+			
+				"djeo-demos/data/russia_features",
 				
-				"dojo/query",
-				"djeo/tests/data/usa_geometries",
-				"djeo/tests/data/usa_features",
-				
-				// seems to be loaded in runtime by dgrid
-				"xstyle/load-css",
+				"djeo/util/numeric",
+				"djeo-colorbrewer/main",
+				"djeo-colorbrewer/data",
+				"djeo-jenks/main",
+
 				// seems to be loaded in runtime by gfx
 				"djeo/dojox/gfx/path",
 				// basic gfx renderers

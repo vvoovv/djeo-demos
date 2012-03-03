@@ -6,7 +6,7 @@
 
 <script>
 	dojoConfig = {
-		isDebug: true,
+		isDebug: false,
 		async: true,
 		djeoEngine: "djeo",
 		geKey: "ABQIAAAA-DMAtggvLwlIYlUJiASaAxQY-Fz4NzEHZIQrBIZBoOQoqd-uzBRkVt7VEildDaCi2BXe96yx38L65A",
@@ -19,7 +19,8 @@
 <script>
 var ready = function(
 	array, dom, domAttr, domConstruct, dijitRegistry, RadioButton, Select,
-	russiaFeatures, russiaGeometries, numeric, colorbrewer, colorbrewerData, jenks, Legend
+	Map, Navigation, Highlight, Tooltip, Legend,
+	russiaFeatures, russiaGeometries, numeric, colorbrewer, colorbrewerData, jenks
 	) {
 	DebugUtil.timer.end("loading");
 
@@ -101,7 +102,7 @@ var ready = function(
 	];
 	
 	DebugUtil.timer.start("render");
-	map = new djeo.Map("map", {
+	map = new Map("map", {
 		geometries: russiaGeometries,
 		features: features,
 		style: mapStyle,
@@ -109,9 +110,9 @@ var ready = function(
 	});
 	map.ready(function(){
 		DebugUtil.timer.end("render");
-		new djeo.control.Navigation(map);
-		new djeo.control.Highlight(map);
-		new djeo.control.Tooltip(map, {
+		new Navigation(map);
+		new Highlight(map);
+		new Tooltip(map, {
 			text: function(feature) {
 				return "<span style='font-weight:bold'>"+feature.name+"</span><br>"+
 				"Population density: "+feature.get("indicator1");
@@ -144,6 +145,12 @@ require([
 	"dijit/form/RadioButton",
 	"dijit/form/Select",
 	
+	"djeo/Map",
+	"djeo/control/Navigation",
+	"djeo/control/Highlight",
+	"djeo/control/Tooltip",
+	"djeo/widget/Legend",
+
 	"djeo-demos/data/russia_features",
 	"djeo-demos/data/russia_geometries" + (dojoConfig.djeoEngine!="djeo" ? "Epsg4326" : ""),
 	
@@ -151,12 +158,6 @@ require([
 	"djeo-colorbrewer/main",
 	"djeo-colorbrewer/data",
 	"djeo-jenks/main",
-	"djeo/widget/Legend",
-	
-	"djeo/Map",
-	"djeo/control/Navigation",
-	"djeo/control/Highlight",
-	"djeo/control/Tooltip",
 	
 	"dojo/domReady!"
 ], ready);

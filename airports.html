@@ -31,7 +31,7 @@ html, body, #container{
 
 <script>
 	dojoConfig = {
-		isDebug: true,
+		isDebug: false,
 		async: true,
 		djeoEngine: "djeo",
 		geKey: "ABQIAAAA-DMAtggvLwlIYlUJiASaAxQY-Fz4NzEHZIQrBIZBoOQoqd-uzBRkVt7VEildDaCi2BXe96yx38L65A",
@@ -52,17 +52,15 @@ var requireModules = [
 	"dijit/layout/ContentPane",
 	"dgrid/Grid",
 	
-	"djeo-demos/data/airports",
-	
-	"djeo/util/numeric",
-	"djeo-jenks/main",
-	"djeo/widget/Legend",
-	
 	"djeo/Map",
 	"djeo/control/Navigation",
 	"djeo/control/Highlight",
 	"djeo/control/Tooltip",
 	"djeo/widget/Legend",
+
+	"djeo-demos/data/airports",
+	"djeo/util/numeric",
+	"djeo-jenks/main",
 	
 	"dojo/query", // needed for grid.on(".dgrid-row:...", callback)
 	"dojo/domReady!"
@@ -75,7 +73,8 @@ if (dojoConfig.djeoEngine=="djeo") {
 var ready = function(
 	parser, aspect, dijitRegistry,
 	BorderContainer, ContentPane, Grid,
-	airports, numeric, jenks, Legend
+	Map, Navigation, Highlight, Tooltip,
+	Legend, airports, numeric, jenks
 	) {
 	DebugUtil.timer.end("loading");
 
@@ -120,7 +119,7 @@ var ready = function(
 	}
 	
 	DebugUtil.timer.start("render");
-    var map = new djeo.Map("map", {
+    var map = new Map("map", {
 		features: features,
 		geometries: geometries,
 		style: [normalStyle, higlightStyle],
@@ -134,10 +133,10 @@ var ready = function(
 			map.resize();
 		});
 
-		new djeo.control.Navigation(map);
-		new djeo.control.Highlight(map, {features: "airports"});
+		new Navigation(map);
+		new Highlight(map, {features: "airports"});
 
-		new djeo.control.Tooltip(map, {
+		new Tooltip(map, {
 			features: "airports",
 			text: function(feature) {
 				return "<span style='font-weight:bold'>"+feature.name+"</span><br>"+
