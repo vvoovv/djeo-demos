@@ -54,6 +54,7 @@ DebugUtil = {
 };
 
 var hrefParams = getLocationHrefParams(window.location.href);
-if (hrefParams.gfxRenderer) dojoConfig.gfxRenderer = hrefParams.gfxRenderer;
 if (hrefParams.djeoEngine) dojoConfig.djeoEngine = hrefParams.djeoEngine;
+if (hrefParams.locale) dojoConfig.locale = hrefParams.locale;
+if (hrefParams.gfxRenderer) dojoConfig.gfxRenderer = hrefParams.gfxRenderer;
 
