@@ -10,8 +10,8 @@ var profile = {
 	action: "release",
 	cssOptimize: "comments",
 	mini: true,
-	//optimize: "closure",
-	//layerOptimize: "closure",
+	optimize: "closure",
+	layerOptimize: "closure",
 	stripConsole: "all",
 	selectorEngine: "acme",
 	staticHasFeatures: {
@@ -40,7 +40,7 @@ var profile = {
 				"djeo/control/Tooltip",
 				"djeo/widget/Legend",
 			
-				"djeo-demos/data/russia_features",
+				"djeo-demos/colorbrewer/data/russia_features",
 				
 				"djeo/util/numeric",
 				"djeo-colorbrewer/main",
