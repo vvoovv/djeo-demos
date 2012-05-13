@@ -13,7 +13,7 @@ return [
 },
 {
 	id: "building",
-	filter: "$building=='yes' || $building=='government'",
+	filter: "this.isArea() && ($building=='yes' || $building=='government')",
 	fill: "#bca9a9",
 	tooltip: function(feature) {
 		var content = "Building",
