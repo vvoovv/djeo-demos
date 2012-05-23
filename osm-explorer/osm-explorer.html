@@ -81,7 +81,7 @@ function(osm, style, kernel, domConstruct, aspect, BorderContainer, ContentPane,
 		features: osm.parseFromUrl(hrefParams.data ? hrefParams.data : "data/berlin.osm", {style: style}),
 		style: style,
 		iconBasePath: "icons/",
-		projection: "EPSG:3857",
+		projection: "EPSG:3857", // overidden by gmaps, ymaps and ge engines
 		layers: "SATELLITE"
 	});
 	map.ready(function() {
@@ -98,8 +98,11 @@ function(osm, style, kernel, domConstruct, aspect, BorderContainer, ContentPane,
 			map: map,
 			modelOptions: {
 				getLabel: function(feature) {
+					var localizedName = feature.get(nameAttr),
+						name = feature.get("name")
+					;
 					return (feature === this.map.document) ? this.rootLabel :
-						feature[nameAttr] ? feature[nameAttr] : (feature.name ? feature.name : "");
+						localizedName ? localizedName : (name ? name : "");
 				}
 			},
 			style: "height: 100%"

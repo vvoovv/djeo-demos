@@ -1,7 +1,8 @@
 define([], function(){
 
 var nameOrId = function(feature) {
-	return feature.name ? ": " + feature.name : "<br>OpenStreetMap id: "+feature.id;
+	var name = feature.get("name");
+	return name ? ": " + name : "<br>OpenStreetMap id: "+feature.id;
 };
 
 return [
@@ -17,9 +18,9 @@ return [
 	fill: "#bca9a9",
 	tooltip: function(feature) {
 		var content = "Building",
-			name = feature.name,
-			street = feature["addr:street"],
-			housenumber = feature["addr:housenumber"]
+			name = feature.get("name"),
+			street = feature.get("addr:street"),
+			housenumber = feature.get("addr:housenumber")
 		;
 		if (name) {
 			content += ": " + name;
