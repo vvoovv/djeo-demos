@@ -14,7 +14,8 @@
 		"djeo-gmaps": "current",
 		"djeo-ge": "current",
 		"djeo-ymaps": "current",
-		"dgrid": "current"
+		"dgrid": "current",
+		"cbtree": "current"
 	},
 	"keywords": ["djeo", "geo"],
 	"homepage": "http://djeo.org",
