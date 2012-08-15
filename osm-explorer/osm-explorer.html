@@ -78,7 +78,10 @@ function(osm, style, kernel, domConstruct, aspect, BorderContainer, ContentPane,
 	bc.startup();
 
 	var map = new Map("map", {
-		features: osm.parseFromUrl(hrefParams.data ? hrefParams.data : "data/berlin.osm", {style: style}),
+		features: osm.parseFromUrl(hrefParams.data ? hrefParams.data : "data/berlin.osm", {
+			style: style,
+			assignBuildingHeight: true
+		}),
 		style: style,
 		iconBasePath: "icons/",
 		projection: "EPSG:3857", // overidden by gmaps, ymaps and ge engines
