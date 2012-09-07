@@ -66,10 +66,6 @@ var requireModules = [
 	"dojo/domReady!"
 ];
 
-if (dojoConfig.djeoEngine=="djeo") {
-	requireModules.push("djeo/tests/data/usa_geometries", "djeo/tests/data/usa_features");
-}
-
 var ready = function(
 	parser, aspect, dijitRegistry,
 	BorderContainer, ContentPane, Grid,
@@ -110,20 +106,16 @@ var ready = function(
 	];
 	var geometries;
 	
-	if (dojoConfig.djeoEngine=="djeo") {
-		var numArguments = arguments.length,
-			usaGeometries = arguments[numArguments-2],
-			usaFeatures = arguments[numArguments-1];
-		geometries = usaGeometries;
-		features.push({features: usaFeatures});
-	}
+	var e = dojoConfig.djeoEngine,
+		layers = (e=="djeo" || e=="leaflet" || e=="esri") ? "OSM" : "HYBRID"
+	;
 	
 	DebugUtil.timer.start("render");
     var map = new Map("map", {
 		features: features,
 		geometries: geometries,
 		style: [normalStyle, higlightStyle],
-		layers: "HYBRID"
+		layers: layers
 	});
 
 	map.ready(function(){
