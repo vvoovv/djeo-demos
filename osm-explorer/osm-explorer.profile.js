@@ -15,6 +15,7 @@ var profile = {
 	stripConsole: "all",
 	selectorEngine: "acme",
 	staticHasFeatures: {
+		"dojo-firebug": 0,
 		"djeo-built": 1
 	},
 	layers: {
@@ -76,6 +77,24 @@ var profile = {
 				"djeo-ge/Placemark",
 				"djeo-ge/Navigation",
 				"djeo-ge/Tooltip"
+			]
+		},
+		"djeo-leaflet/leaflet": {
+			include: [
+				"djeo-leaflet/Engine",
+				"djeo-leaflet/Placemark",
+				"djeo-leaflet/Navigation",
+				// loaded in runtime
+				"djeo-leaflet/WebTiles",
+				// seems to be loaded in runtime
+				"xstyle/load-css"
+			]
+		},
+		"djeo-esri/esri": {
+			include: [
+				"djeo-esri/Engine",
+				"djeo-esri/Placemark",
+				"djeo-esri/Navigation"
 			]
 		}
 	},

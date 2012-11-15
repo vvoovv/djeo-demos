@@ -7,8 +7,11 @@ var dojoConfig = {
 		{name: "djeo-gmaps", location: "../../djeo-gmaps"},
 		{name: "djeo-ge", location: "../../djeo-ge"},
 		{name: "djeo-ymaps", location: "../../djeo-ymaps"},
+		{name: "djeo-leaflet", location: "../../djeo-leaflet"},
+		{name: "djeo-esri", location: "../../djeo-esri"},
 		{name: "djeo-demos", location: "../../djeo-demos"},
 		{name: "djeo-ui", location: "../../djeo-ui"},
+		{name: "xstyle", location: "../../xstyle"},
 		{name: "cbtree", location: "../../cbtree"}
 	]
 };

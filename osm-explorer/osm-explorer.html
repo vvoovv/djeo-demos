@@ -24,11 +24,10 @@ html, body, #container{
 
 <script>
 	dojoConfig = {
-		isDebug: true,
+		isDebug: false,
 		async: true,
 		parseOnLoad: false,
-		djeoEngine: "djeo",
-		ymapsKey: "ANMiq04BAAAA1kB9MQMA7tdsXyQEqy76s-aTjUTaH5v_vPgAAAAAAAAAAAC4kPhFQz2sCMbzqMCJi01lKdvgGA=="
+		djeoEngine: "djeo"
 	};
 </script>
 <script src="../util.js"></script>
@@ -51,7 +50,6 @@ require([
 	"djeo/control/Navigation",
 
 	"djeo-ui/Tree",
-	"djeo/projection", // only djeo native engine needs it; the other engines don't need it
 	
 	"dojo/domReady!"
 ],
@@ -77,6 +75,10 @@ function(osm, style, kernel, domConstruct, aspect, BorderContainer, ContentPane,
 	bc.addChild(mapCp);
 	
 	bc.startup();
+	
+	var e = dojoConfig.djeoEngine,
+		layers = (e=="djeo" || e=="leaflet" || e=="esri") ? "ROADMAP" : "SATELLITE"
+	;
 
 	var map = new Map("map", {
 		features: osm.parseFromUrl(hrefParams.data ? hrefParams.data : "data/berlin.osm", {
@@ -85,8 +87,7 @@ function(osm, style, kernel, domConstruct, aspect, BorderContainer, ContentPane,
 		}),
 		style: style,
 		iconBasePath: "icons/",
-		projection: "EPSG:3857", // overidden by gmaps, ymaps and ge engines
-		layers: "SATELLITE"
+		layers: layers
 	});
 	map.ready(function() {
 		aspect.after(mapCp, "resize", function(){
