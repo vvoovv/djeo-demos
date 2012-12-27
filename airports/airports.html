@@ -148,12 +148,12 @@ var ready = function(
 			columns: columns
 		}, "grid");
 		grid.on(".dgrid-row:mouseover", function(evt){
-			var feature = map.getFeatureById(grid.row(evt).data.id);
-			feature.render(true, "highlight");
+			var feature = map.$(grid.row(evt).data.id);
+			feature.set("state", "highlight");
 		});
 		grid.on(".dgrid-row:mouseout", function(evt){
-			var feature = map.getFeatureById(grid.row(evt).data.id);
-			feature.render(true);
+			var feature = map.$(grid.row(evt).data.id);
+			feature.set("state");
 		});
 		grid.on(".dgrid-row:dblclick", function(evt){
 			map.zoomTo(grid.row(evt).data.id);
