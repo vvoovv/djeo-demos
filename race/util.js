@@ -40,7 +40,6 @@ return {
 	},
 	
 	movePointAlongTrack: function(point, distance, trackCoords, trackCoordIndex, clockwise) {
-		console.debug(distance);
 		var numTrackCoords = trackCoords.length,
 			lastTrackCoordIndex
 		;
