@@ -28,6 +28,7 @@ require([
 	"race/RaceServer",
 	"race/RaceClient",
 	"track.js",
+	"djeo/Model",
 	"dojo/domReady!"
 ], function(Map, Navigation, RaceServer, RaceClient, trackCoords) {
 	
@@ -35,7 +36,7 @@ require([
 		trackCoords: trackCoords,
 		numCars: numCars,
 		carDistance: carDistance,
-		speed: 27.8 // 100 km/h
+		speed: 14 // ~50 km/h
 	});
 	
 	var carPositions = server.getInitialCarPositions();
@@ -44,8 +45,9 @@ require([
 	for(var i=0; i<numCars; i++) {
 		features.push({
 			id: i+1,
-			type: "Point",
+			type: "Model",
 			coords: carPositions[i][0],
+			href: "mercedes1904.kmz",
 			style: {
 				img: "mercedes1904.png",
 				size: [34,34]
@@ -68,7 +70,8 @@ require([
 		new Navigation(map);
 		new RaceClient({
 			map: map,
-			server: server
+			server: server,
+			running: true
 		})
 	});
 });

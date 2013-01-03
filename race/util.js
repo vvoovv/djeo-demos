@@ -40,6 +40,7 @@ return {
 	},
 	
 	movePointAlongTrack: function(point, distance, trackCoords, trackCoordIndex, clockwise) {
+		console.debug(distance);
 		var numTrackCoords = trackCoords.length,
 			lastTrackCoordIndex
 		;
@@ -62,7 +63,7 @@ return {
 					p2 = trackCoords[trackCoordIndex],
 					heading = Math.atan2(p2[0]-p1[0], p2[1]-p1[1])
 				;
-				return [point, trackCoordIndex, clockwise ? heading : heading - Math.PI];
+				return [point, lastTrackCoordIndex, clockwise ? heading : heading - Math.PI];
 			}
 			else {
 				point = trackPoint;

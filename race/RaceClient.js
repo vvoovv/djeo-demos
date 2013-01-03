@@ -11,7 +11,6 @@ return declare([Client], {
 		if (response.heading != undefined) {
 			feature.set("orientation", response.heading);
 		}
-		//this.features[response.id].coords = response.coordinates;
 	}
 });
 	

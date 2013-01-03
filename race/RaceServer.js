@@ -28,7 +28,8 @@ return declare(null, {
 			for (var i=0; i<this.numCars; i++) {
 				var timestamp = getTime(),
 					result = u.movePointAlongTrack(
-						carPosition, i ? this.carDistance : this.speed * (timestamp - this.timestamp),
+						carPosition,
+						i ? this.carDistance : this.speed * (timestamp - this.timestamp)/1000.,
 						this.trackCoords,
 						trackCoordIndex,
 						!i
@@ -52,7 +53,7 @@ return declare(null, {
     },
 	
 	getInitialCarPositions: function() {
-		return u.getInitialPositions(this.trackCoords, this.numCars, this.carDistance);
+		return u.getInitialPositions(this.trackCoords, this.numCars, 10, this.carDistance);
 	}
 });
 	
