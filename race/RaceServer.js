@@ -53,7 +53,7 @@ return declare(null, {
     },
 	
 	getInitialCarPositions: function() {
-		return u.getInitialPositions(this.trackCoords, this.numCars, 10, this.carDistance);
+		return u.getInitialPositions(this.trackCoords, this.numCars, this.carDistance);
 	}
 });
 	
