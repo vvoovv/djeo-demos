@@ -25,12 +25,13 @@ var numCars = 20,
 require([
 	"djeo/Map",
 	"djeo/control/Navigation",
+	"djeo/control/Highlight",
 	"race/RaceServer",
 	"race/RaceClient",
 	"track.js",
 	"djeo/Model",
 	"dojo/domReady!"
-], function(Map, Navigation, RaceServer, RaceClient, trackCoords) {
+], function(Map, Navigation, Highlight, RaceServer, RaceClient, trackCoords) {
 	
 	var server = new RaceServer({
 		trackCoords: trackCoords,
@@ -50,7 +51,7 @@ require([
 			href: "resources/mercedes1904.kmz",
 			style: {
 				img: "resources/mercedes1904.png",
-				size: [34,34]
+				size: [32,32]
 			},
 			orientation: carPositions[i][1]
 		});
@@ -64,10 +65,14 @@ require([
 		features: features,
 		layers: "osm",
 		renderModels: true,
-		extent: [8.564, 49.3256, 8.584, 49.333]
+		extent: [8.564, 49.3256, 8.584, 49.333],
+		// Leaflet, Google Maps API, Yandex Maps API don't support icon orientation natively
+		// However, it's possible to simulate it via pre-generated sprites
+		simulateOrientation: true
 	});
 	map.ready(function(){
 		new Navigation(map);
+		new Highlight(map);
 		new RaceClient({
 			map: map,
 			server: server,
