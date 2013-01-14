@@ -75,7 +75,7 @@ require([
 	});
 	map.ready(function(){
 		new Navigation(map);
-		if (e!="ymaps") new Highlight(map);
+		if (e!="ymaps") new Highlight(map); // TODO: maybe a bug, check this later
 		new RaceClient({
 			map: map,
 			server: server,
