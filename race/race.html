@@ -63,16 +63,19 @@ require([
 
 	var map = new Map("map", {
 		features: features,
-		layers: "osm",
+		layers: layers,
 		renderModels: true,
 		extent: [8.564, 49.3256, 8.584, 49.333],
-		// Leaflet, Google Maps API, Yandex Maps API don't support icon orientation natively
-		// However, it's possible to simulate it via pre-generated sprites
+		// Leaflet, Google Maps API, Yandex Maps API don't support icon orientation natively.
+		// However, it's possible to simulate it via pre-generated sprites.
+		// Use python scripts make_sprites.py or rotate_icon.py from https://github.com/vvoovv/djeo-utils
+		// to generate a single image with 360 icon orientations or 360 images each for a specific icon orientation, respectively
+		// Install PIL python library from http://www.pythonware.com/products/pil/ to run the scripts
 		simulateOrientation: true
 	});
 	map.ready(function(){
 		new Navigation(map);
-		new Highlight(map);
+		if (e!="ymaps") new Highlight(map);
 		new RaceClient({
 			map: map,
 			server: server,
