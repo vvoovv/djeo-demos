@@ -1,11 +1,16 @@
-var copyOnly = function(mid) {
+var copyOnly = function(filename, mid) {
 	return mid in {
-		"djeo-demos/util": 1
+		"djeo-demos/util": 1,
+		"djeo-demos/race/resources/track": 1
 	}
 };
 
+var miniExclude = function(filename, mid) {
+	return mid!="djeo-demos/util" && !/djeo-demos\/race/.test(filename)
+}
+
 var profile = {
-	releaseDir: "../../release",
+	releaseDir: "../release",
 	basePath: "..",
 	action: "release",
 	cssOptimize: "comments",
@@ -13,7 +18,7 @@ var profile = {
 	optimize: "closure",
 	layerOptimize: "closure",
 	stripConsole: "all",
-	selectorEngine: "acme",
+	selectorEngine: "lite",
 	staticHasFeatures: {
 		"dojo-firebug": 0,
 		"djeo-built": 1
@@ -23,29 +28,15 @@ var profile = {
 			include: [
 				"dojo/dojo",
 				"dojo/domReady",
-				"dojo/_base/kernel", // locale
-				"dojo/dom-construct", // place
-				"dojo/aspect", // after
-				"dijit/layout/BorderContainer",
-				"dijit/layout/ContentPane",
 				
 				"djeo/Map",
 				// djeo/Engine is used by all engines
 				"djeo/Engine",
 				"djeo/control/Navigation",
 				"djeo/control/Highlight",
-				"djeo/control/Tooltip",
-
-				"djeo-ui/Tree",
-				"djeo/projection",
-				"djeo/parser/osm",
-	
-				// seems to be loaded in runtime by gfx
-				"djeo/dojox/gfx/path",
-				// basic gfx renderers
-				"djeo/dojox/gfx/svg",
-				"djeo/dojox/gfx/canvasWithEvents",
-				"djeo/dojox/gfx/vml"
+				"djeo/Model",
+				"djeo-demos/race/RaceServer",
+				"djeo-demos/race/RaceClient"
 			],
 			customBase: true,
 			boot: true
@@ -55,7 +46,13 @@ var profile = {
 				"djeo/djeo/Engine",
 				"djeo/djeo/Placemark",
 				"djeo/djeo/Navigation",
-				"djeo/djeo/WebTiles"
+				"djeo/WebTiles",
+				"djeo/djeo/WebTiles",
+				// seems to be loaded in runtime by gfx
+				"djeo/dojox/gfx/path",
+				// basic gfx renderers
+				"djeo/dojox/gfx/svg",
+				"djeo/dojox/gfx/vml"
 			]
 		},
 		"djeo-gmaps/gmaps": {
@@ -69,7 +66,9 @@ var profile = {
 			include: [
 				"djeo-ymaps/Engine",
 				"djeo-ymaps/Placemark",
-				"djeo-ymaps/Navigation"
+				"djeo-ymaps/Navigation",
+				"djeo-ymaps/WebTiles",
+				"djeo/WebTiles"
 			]
 		},
 		"djeo-ge/ge": {
@@ -77,7 +76,7 @@ var profile = {
 				"djeo-ge/Engine",
 				"djeo-ge/Placemark",
 				"djeo-ge/Navigation",
-				"djeo-ge/Tooltip"
+				"djeo-ge/Model"
 			]
 		},
 		"djeo-leaflet/leaflet": {
@@ -86,25 +85,39 @@ var profile = {
 				"djeo-leaflet/Placemark",
 				"djeo-leaflet/Navigation",
 				"djeo-leaflet/WebTiles",
+				"djeo/WebTiles",
 				// seems to be loaded in runtime
 				"xstyle/load-css"
 			]
 		},
 		"djeo-esri/esri": {
 			include: [
+				"dojo/main",
+				"dojo/require",
+				"dojo/i18n",
+				"dojo/text",
 				"djeo-esri/Engine",
 				"djeo-esri/Placemark",
 				"djeo-esri/Navigation",
-				"djeo-esri/WebTiles"
+				"djeo-esri/WebTiles",
+				"djeo/WebTiles",
+				// seems to be loaded in runtime by gfx
+				"dojox/gfx/path",
+				// basic gfx renderers
+				"dojox/gfx/svg",
+				"dojox/gfx/vml"
 			]
 		}
 	},
 	resourceTags: {
 		copyOnly: function (filename, mid) {
-			return copyOnly(mid);
+			return copyOnly(filename, mid);
 		},
 		amd: function(filename, mid) {
 			return !copyOnly(mid) && /\.js$/.test(filename);
+		},
+		miniExclude: function(filename, mid) {
+			return miniExclude(filename, mid);
 		}
 	}
 };

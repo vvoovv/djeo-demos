@@ -1,7 +1,6 @@
 define([
-	"dojo/_base/declare",
 	"djeo/util/_base"
-], function(declare, u) {
+], function(u) {
 
 var earthRadius = 6378137;
 

@@ -19,5 +19,6 @@
 	},
 	"keywords": ["djeo", "geo"],
 	"homepage": "http://djeo.org",
-	"icon": "http://djeo.github.com/djeo25.png"
+	"icon": "http://djeo.github.com/djeo25.png",
+	"dojoBuild": "%/%.profile.js" // place airports, colorbrewer, osm-explorer or race instead of %
 }
