@@ -1,8 +1,13 @@
-var copyOnly = function(mid) {
+var copyOnly = function(filename, mid) {
 	return mid in {
-		"djeo-demos/util": 1
+		"djeo-demos/util": 1,
+		"djeo-demos/airports/data/airports": 1
 	}
 };
+
+var miniExclude = function(filename, mid) {
+	return mid!="djeo-demos/util" && !/djeo-demos\/airports/.test(filename)
+}
 
 var profile = {
 	releaseDir: "../release",
@@ -13,7 +18,7 @@ var profile = {
 	optimize: "closure",
 	layerOptimize: "closure",
 	stripConsole: "all",
-	selectorEngine: "acme",
+	selectorEngine: "lite",
 	staticHasFeatures: {
 		"djeo-built": 1
 	},
@@ -63,7 +68,9 @@ var profile = {
 			include: [
 				"djeo/djeo/Engine",
 				"djeo/djeo/Placemark",
-				"djeo/djeo/Navigation"
+				"djeo/djeo/Navigation",
+				"djeo/WebTiles",
+				"djeo/djeo/WebTiles"
 			]
 		},
 		"djeo-gmaps/gmaps": {
@@ -87,14 +94,44 @@ var profile = {
 				"djeo-ge/Navigation",
 				"djeo-ge/Tooltip"
 			]
+		},
+		"djeo-leaflet/leaflet": {
+			include: [
+				"djeo-leaflet/Engine",
+				"djeo-leaflet/Placemark",
+				"djeo-leaflet/Navigation",
+				"djeo-leaflet/WebTiles",
+				"djeo/WebTiles",
+				// seems to be loaded in runtime
+				"xstyle/load-css"
+			]
+		},
+		"djeo-esri/esri": {
+			include: [
+				"dojo/main",
+				"dojo/require",
+				"djeo-esri/Engine",
+				"djeo-esri/Placemark",
+				"djeo-esri/Navigation",
+				"djeo-esri/WebTiles",
+				"djeo/WebTiles",
+				// seems to be loaded in runtime by gfx
+				"dojox/gfx/path",
+				// basic gfx renderers
+				"dojox/gfx/svg",
+				"dojox/gfx/vml"
+			]
 		}
 	},
 	resourceTags: {
 		copyOnly: function (filename, mid) {
-			return copyOnly(mid);
+			return copyOnly(filename, mid);
 		},
 		amd: function(filename, mid) {
 			return !copyOnly(mid) && /\.js$/.test(filename);
+		},
+		miniExclude: function(filename, mid) {
+			return miniExclude(filename, mid);
 		}
 	}
 };

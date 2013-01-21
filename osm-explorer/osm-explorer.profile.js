@@ -1,11 +1,16 @@
-var copyOnly = function(mid) {
+var copyOnly = function(filename, mid) {
 	return mid in {
-		"djeo-demos/util": 1
+		"djeo-demos/util": 1,
+		"djeo-demos/osm-explorer/style": 1
 	}
 };
 
+var miniExclude = function(filename, mid) {
+	return mid!="djeo-demos/util" && !/djeo-demos\/osm-explorer/.test(filename)
+}
+
 var profile = {
-	releaseDir: "../../release",
+	releaseDir: "../release",
 	basePath: "..",
 	action: "release",
 	cssOptimize: "comments",
@@ -13,7 +18,7 @@ var profile = {
 	optimize: "closure",
 	layerOptimize: "closure",
 	stripConsole: "all",
-	selectorEngine: "acme",
+	selectorEngine: "lite",
 	staticHasFeatures: {
 		"dojo-firebug": 0,
 		"djeo-built": 1
@@ -37,14 +42,12 @@ var profile = {
 				"djeo/control/Tooltip",
 
 				"djeo-ui/Tree",
-				"djeo/projection",
 				"djeo/parser/osm",
 	
 				// seems to be loaded in runtime by gfx
 				"djeo/dojox/gfx/path",
 				// basic gfx renderers
 				"djeo/dojox/gfx/svg",
-				"djeo/dojox/gfx/canvasWithEvents",
 				"djeo/dojox/gfx/vml"
 			],
 			customBase: true,
@@ -55,6 +58,7 @@ var profile = {
 				"djeo/djeo/Engine",
 				"djeo/djeo/Placemark",
 				"djeo/djeo/Navigation",
+				"djeo/WebTiles",
 				"djeo/djeo/WebTiles"
 			]
 		},
@@ -86,25 +90,37 @@ var profile = {
 				"djeo-leaflet/Placemark",
 				"djeo-leaflet/Navigation",
 				"djeo-leaflet/WebTiles",
+				"djeo/WebTiles",
 				// seems to be loaded in runtime
 				"xstyle/load-css"
 			]
 		},
 		"djeo-esri/esri": {
 			include: [
+				"dojo/main",
+				"dojo/require",
 				"djeo-esri/Engine",
 				"djeo-esri/Placemark",
 				"djeo-esri/Navigation",
-				"djeo-esri/WebTiles"
+				"djeo-esri/WebTiles",
+				"djeo/WebTiles",
+				// seems to be loaded in runtime by gfx
+				"dojox/gfx/path",
+				// basic gfx renderers
+				"dojox/gfx/svg",
+				"dojox/gfx/vml"
 			]
 		}
 	},
 	resourceTags: {
 		copyOnly: function (filename, mid) {
-			return copyOnly(mid);
+			return copyOnly(filename, mid);
 		},
 		amd: function(filename, mid) {
 			return !copyOnly(mid) && /\.js$/.test(filename);
+		},
+		miniExclude: function(filename, mid) {
+			return miniExclude(filename, mid);
 		}
 	}
 };

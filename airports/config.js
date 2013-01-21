@@ -12,8 +12,9 @@ var dojoConfig = {
 		{name: "djeo-leaflet", location: "../djeo-leaflet"},
 		{name: "djeo-esri", location: "../djeo-esri"},
 		{name: "djeo-demos", location: "../djeo-demos"},
-		{name: "djeo-ui", location: "../djeo-ui"},
-		{name: "xstyle", location: "../xstyle"}, // needed by djeo-leaflet
-		{name: "cbtree", location: "../cbtree"}
+		{name: "djeo-jenks", location: "../djeo-jenks"},
+		{name: "dgrid", location: "../dgrid"},
+		{name: "put-selector", location: "../put-selector"},
+		{name: "xstyle", location: "../xstyle"} // needed by djeo-leaflet
 	]
 };
