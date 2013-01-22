@@ -49,7 +49,6 @@ var profile = {
 				"djeo/widget/Legend",
 				
 				"dojo/query",
-				"djeo/tests/data/usa_geometries",
 				"djeo/tests/data/usa_features",
 				
 				// seems to be loaded in runtime by dgrid
